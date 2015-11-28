@@ -13560,7 +13560,7 @@ wysihtml5.views.View = Base.extend(
         });
 
         dialog.on("cancel", function() {
-          that.editor.focus(false);
+          //that.editor.focus(false);
           that.editor.fire("cancel:dialog", { command: command, dialogContainer: dialogElement, commandLink: link });
         });
       }
