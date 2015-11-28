@@ -13563,6 +13563,13 @@ wysihtml5.views.View = Base.extend(
           that.editor.fire("show:dialog", { command: command, dialogContainer: dialogElement, commandLink: link });
         });
 
+        dialog.on("edit", function(attributes) {
+          that.editor.composer.disable();
+          setTimeout(function() {
+            that.editor.composer.enable();
+          }, 50);
+        });
+
         dialog.on("save", function(attributes) {
           if (caretBookmark) {
             that.composer.selection.setBookmark(caretBookmark);
