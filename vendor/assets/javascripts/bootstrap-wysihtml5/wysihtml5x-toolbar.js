@@ -13569,7 +13569,11 @@ wysihtml5.views.View = Base.extend(
           }
           that._execCommand(command, attributes);
 
+          that.editor.composer.disable();
           that.editor.fire("save:dialog", { command: command, dialogContainer: dialogElement, commandLink: link });
+          setTimeout(function() {
+            that.editor.composer.enable();
+          }, 50);
         });
 
         dialog.on("cancel", function() {
@@ -13579,7 +13583,7 @@ wysihtml5.views.View = Base.extend(
           that.editor.fire("cancel:dialog", { command: command, dialogContainer: dialogElement, commandLink: link });
           setTimeout(function() {
             that.editor.composer.enable();
-          }, 1);
+          }, 50);
         });
       }
       return dialog;
