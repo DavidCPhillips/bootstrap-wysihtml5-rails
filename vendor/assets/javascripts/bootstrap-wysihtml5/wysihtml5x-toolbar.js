@@ -13669,7 +13669,7 @@ wysihtml5.views.View = Base.extend(
       });
 
       editor.on("interaction:composer", function() {
-          if (!this.editor.composer.isDisabled()) {
+          if (!this.composer.isDisabled()) {
             that._updateLinkStates();
           }
       });
