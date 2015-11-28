@@ -11797,6 +11797,7 @@ wysihtml5.views.View = Base.extend(
 
     // Needed for firefox in order to display a proper caret in an empty contentEditable
     CARET_HACK: "<br>",
+    DISABLED_COMMAND: "composer-disabled",
 
     constructor: function(parent, editableElement, config) {
       this.base(parent, editableElement, config);
@@ -11814,6 +11815,18 @@ wysihtml5.views.View = Base.extend(
 
     clear: function() {
       this.element.innerHTML = browser.displaysCaretInEmptyContentEditableCorrectly() ? "" : this.CARET_HACK;
+    },
+
+    disable: function() {
+      dom.addClass(this.element, DISABLED_COMMAND);
+    },
+
+    enable: function() {
+      dom.removeClass(this.element, DISABLED_COMMAND);
+    },
+
+    isDisabled: function() {
+      return dom.hasClass(this.element, DISABLED_COMMAND);
     },
 
     getValue: function(parse, clearInternals) {
@@ -13560,8 +13573,13 @@ wysihtml5.views.View = Base.extend(
         });
 
         dialog.on("cancel", function() {
-          //that.editor.focus(false);
+          // Disable focus handling on the composer until after cancel event.
+          that.editor.composer.disable();
+          that.editor.focus(false);
           that.editor.fire("cancel:dialog", { command: command, dialogContainer: dialogElement, commandLink: link });
+          setTimeout(function() {
+            that.editor.composer.enable();
+          }, 1);
         });
       }
       return dialog;
@@ -13651,7 +13669,9 @@ wysihtml5.views.View = Base.extend(
       });
 
       editor.on("interaction:composer", function() {
-          that._updateLinkStates();
+          if (!this.editor.composer.isDisabled()) {
+            that._updateLinkStates();
+          }
       });
 
       editor.on("focus:composer", function() {
