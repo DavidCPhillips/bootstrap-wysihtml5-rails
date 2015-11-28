@@ -11818,15 +11818,15 @@ wysihtml5.views.View = Base.extend(
     },
 
     disable: function() {
-      dom.addClass(this.element, DISABLED_COMMAND);
+      dom.addClass(this.element, this.DISABLED_COMMAND);
     },
 
     enable: function() {
-      dom.removeClass(this.element, DISABLED_COMMAND);
+      dom.removeClass(this.element, this.DISABLED_COMMAND);
     },
 
     isDisabled: function() {
-      return dom.hasClass(this.element, DISABLED_COMMAND);
+      return dom.hasClass(this.element, this.DISABLED_COMMAND);
     },
 
     getValue: function(parse, clearInternals) {
